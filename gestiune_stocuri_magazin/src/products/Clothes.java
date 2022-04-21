@@ -1,14 +1,14 @@
-package product_categories;
+package products;
 
 import distributors.Distributor;
 
-public class ClothesProduct extends Product{
+public class Clothes extends Product{
 	private String size;
-	public ClothesProduct(String name, double price, int qty, Distributor distributor, int discountPercentage, String size) {
+	public Clothes(String name, double price, int qty, Distributor distributor, int discountPercentage, String size) {
 		super(name, price, qty, distributor, discountPercentage);
 		this.setSize(size);
 	}
-	public ClothesProduct(String name, double price, int qty, Distributor distributor, String size) {
+	public Clothes(String name, double price, int qty, Distributor distributor, String size) {
 		super(name, price, qty, distributor);
 		this.setSize(size);
 	}

@@ -1,15 +1,15 @@
-package product_categories;
+package products;
 
 import distributors.Distributor;
 
-public class ElectronicsProduct extends Product {
+public class Electronic extends Product {
 	private int guarantee;
 
-	public ElectronicsProduct(String name, double price, int qty, Distributor distributor, int discountPercentage, int guarantee) {
+	public Electronic(String name, double price, int qty, Distributor distributor, int discountPercentage, int guarantee) {
 		super(name, price, qty, distributor, discountPercentage);
 		this.setGuarantee(guarantee);
 	}
-	public ElectronicsProduct(String name, double price, int qty, Distributor distributor, int guarantee) {
+	public Electronic(String name, double price, int qty, Distributor distributor, int guarantee) {
 		super(name, price, qty, distributor);
 		this.setGuarantee(guarantee);
 	}

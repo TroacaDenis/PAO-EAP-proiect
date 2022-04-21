@@ -1,6 +1,6 @@
 package stock;
 
-import product_categories.*;
+import products.*;
 
 public interface ServiceInterface {
 	

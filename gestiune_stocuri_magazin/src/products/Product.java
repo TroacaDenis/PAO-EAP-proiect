@@ -1,4 +1,4 @@
-package product_categories;
+package products;
 
 
 import distributors.Distributor;

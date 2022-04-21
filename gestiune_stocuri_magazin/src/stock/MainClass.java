@@ -1,13 +1,14 @@
 package stock;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import categories.*;
 import distributors.*;
-import product_categories.*;
-import stock_categories.*;
+import products.*;
 public class MainClass {
 	public static void main(String[] args) {
 		
@@ -18,42 +19,41 @@ public class MainClass {
 		Distributor d5 = new Distributor("distribuitor5", "0749779045");
 		Distributor d6 = new Distributor("distribuitor6", "0749779046");
 		Distributor []distributors = {d1,d2,d3,d4,d5,d6};
-		
-		FoodProduct fp1 = new FoodProduct("paine", 5, 100, d1, "02-04-2022");
-		FoodProduct fp2 = new FoodProduct("carne", 10, 250, d2, "16-05-2022");
-		FoodProduct fp3 = new FoodProduct("lapte", 7, 100, d4, "07-04-2022");
-		SortedSet<FoodProduct> fproducts = new TreeSet<FoodProduct>();
+		Food fp1 = new Food("paine", 5, 100, d1, LocalDate.of(2022, 4, 2));
+		Food fp2 = new Food("carne", 10, 250, d2, LocalDate.of(2020, 5, 16));
+		Food fp3 = new Food("lapte", 7, 100, d4, LocalDate.of(2020, 4, 7));
+		SortedSet<Food> fproducts = new TreeSet<Food>();
 		fproducts.add(fp1);
 		fproducts.add(fp2);
 		fproducts.add(fp3);
-		Food food = new Food(fproducts);
+		FoodProducts food = new FoodProducts(fproducts);
 		
-		ClothesProduct cp1 = new ClothesProduct("bluzon", 100, 100, d5, "M");
-		ClothesProduct cp2 = new ClothesProduct("tricou", 30, 150, d3, "S");
-		ClothesProduct cp3 = new ClothesProduct("blugi", 250, 50, d4, "M");
-		ArrayList<ClothesProduct> cproducts = new ArrayList<>();
+		Clothes cp1 = new Clothes("bluzon", 100, 100, d5, "M");
+		Clothes cp2 = new Clothes("tricou", 30, 150, d3, "S");
+		Clothes cp3 = new Clothes("blugi", 250, 50, d4, "M");
+		ArrayList<Clothes> cproducts = new ArrayList<>();
 		cproducts.add(cp1);
 		cproducts.add(cp2);
 		cproducts.add(cp3);
-		Clothes clothes = new Clothes(cproducts);
+		ClothesProducts clothes = new ClothesProducts(cproducts);
 		
-		ElectronicsProduct ep1 = new ElectronicsProduct("frigider", 2000, 10, d1, 5);
-		ElectronicsProduct ep2 = new ElectronicsProduct("masina de spalat", 999, 15, d6, 2);
-		ElectronicsProduct ep3 = new ElectronicsProduct("casti", 250, 50, d2, 0);
-		ArrayList<ElectronicsProduct> eproducts = new ArrayList<>();
+		Electronic ep1 = new Electronic("frigider", 2000, 10, d1, 5);
+		Electronic ep2 = new Electronic("masina de spalat", 999, 15, d6, 2);
+		Electronic ep3 = new Electronic("casti", 250, 50, d2, 0);
+		ArrayList<Electronic> eproducts = new ArrayList<>();
 		eproducts.add(ep1);
 		eproducts.add(ep2);
 		eproducts.add(ep3);
-		Electronics electronics = new Electronics(eproducts);
+		ElectronicProducts electronics = new ElectronicProducts(eproducts);
 		
-		BooksProduct bp1 = new BooksProduct("book1", 10, 120, d1, "author1");
-		BooksProduct bp2 = new BooksProduct("book2", 12, 123, d4, "author1");
-		BooksProduct bp3 = new BooksProduct("book3", 15, 234, d2, "author3");
-		ArrayList<BooksProduct> bproducts = new ArrayList<>();
+		Book bp1 = new Book("book1", 10, 120, d1, "author1");
+		Book bp2 = new Book("book2", 12, 123, d4, "author1");
+		Book bp3 = new Book("book3", 15, 234, d2, "author3");
+		ArrayList<Book> bproducts = new ArrayList<>();
 		bproducts.add(bp1);
 		bproducts.add(bp2);
 		bproducts.add(bp3);
-		Books books = new Books(bproducts);
+		BookProducts books = new BookProducts(bproducts);
 		
 		Stock s = new Stock(food, electronics, clothes, books);
 		Service service = new Service();
@@ -116,25 +116,33 @@ public class MainClass {
 				myScanner.nextLine();
 				switch (productCategory) {
 				case 1:
-					System.out.print("Data de expirare(DD-MM-YYYY):");
-					String expirationDate = myScanner.nextLine();
-					service.addProduct(s, new FoodProduct(name, price, qty, distributor, expirationDate));
+					System.out.println("Data de expirare:");
+					System.out.print("Anul:");
+					int expirationYear = myScanner.nextInt();
+					myScanner.nextLine();
+					System.out.print("Luna:");
+					int expirationMonth = myScanner.nextInt();
+					myScanner.nextLine();
+					System.out.print("Ziua:");
+					int expirationDay = myScanner.nextInt();
+					myScanner.nextLine();
+					service.addProduct(s, new Food(name, price, qty, distributor, LocalDate.of(expirationYear, expirationMonth, expirationDay)));
 					break;
 				case 2:
 					System.out.print("Ani garantie:");
 					int guarantee = myScanner.nextInt();
 					myScanner.nextLine();
-					service.addProduct(s, new ElectronicsProduct(name, price, qty, distributor, guarantee));
+					service.addProduct(s, new Electronic(name, price, qty, distributor, guarantee));
 					break;
 				case 3:
 					System.out.print("Marime(S,M,L,XL):");
 					String size = myScanner.nextLine();
-					service.addProduct(s, new ClothesProduct(name, price, qty, distributor, size));
+					service.addProduct(s, new Clothes(name, price, qty, distributor, size));
 					break;
 				case 4:
 					System.out.print("Autor:");
 					String author = myScanner.nextLine();
-					service.addProduct(s, new BooksProduct(name, price, qty, distributor, author));
+					service.addProduct(s, new Book(name, price, qty, distributor, author));
 					break;
 
 				default:

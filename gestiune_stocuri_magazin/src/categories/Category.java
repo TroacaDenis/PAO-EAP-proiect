@@ -1,7 +1,7 @@
-package stock_categories;
+package categories;
 
 
-import product_categories.*;
+import products.*;
 
 public abstract class Category {
 	public Category() {

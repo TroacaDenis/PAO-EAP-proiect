@@ -1,35 +1,35 @@
-package stock_categories;
+package categories;
 
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import product_categories.FoodProduct;
-import product_categories.Product;
+import products.Food;
+import products.Product;
 
-public class Food extends Category {
-	private SortedSet<FoodProduct> products; 
+public class FoodProducts extends Category {
+	private SortedSet<Food> products; 
 	
-	public Food() {
+	public FoodProducts() {
 		super();
-		this.products = new TreeSet<FoodProduct>();
+		this.products = new TreeSet<>();
 	}
 
-	public Food(SortedSet<FoodProduct> products) {
+	public FoodProducts(SortedSet<Food> products) {
 		super();
 		this.products = products;
 	}
 
-	public SortedSet<FoodProduct> getProducts() {
+	public SortedSet<Food> getProducts() {
 		return products;
 	}
 
-	public void setProducts(SortedSet<FoodProduct> products) {
+	public void setProducts(SortedSet<Food> products) {
 		this.products = products;
 	}
 
 	@Override
 	public void addProduct(Product p) {
-		products.add((FoodProduct) p);
+		products.add((Food) p);
 		
 	}
 
@@ -39,7 +39,7 @@ public class Food extends Category {
 	}
 	
 	public void applyDiscount(int n) {
-		for(FoodProduct p : products) {
+		for(Food p : products) {
 			if(p.getDiscountPercentage() == 0) {
 				p.setDiscountPercentage(25);
 				p.setPrice(3*p.getPrice()/4);
