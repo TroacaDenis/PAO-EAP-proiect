@@ -1,22 +1,22 @@
 # Aplicatie de gestionare a stocurilor unui magazin
 
 ## Pachete si clase:
-- Pachetul product_categories:
+- Pachetul products:
   * Clasa Product: cu membri precum id, nume, pret etc., din care sunt derivate celelalte 4 clase ce reprezinta tipuri de produse
-  * Clasa FoodProduct: produse ce au si o data de expirare
-  * Clasa ElectronicsProduct: produse ce au si o garantie
-  * Clasa BooksProduct: produse ce au si un autor
-  * Clasa ClothesProduct: produse ce au si o marime
-- Pachetul stock_categories:
+  * Clasa Food: produse ce au si o data de expirare
+  * Clasa Electronic: produse ce au si o garantie
+  * Clasa Book: produse ce au si un autor
+  * Clasa Clothes: produse ce au si o marime
+- Pachetul categories:
   * Clasa abstracta Category: din care sunt derivate celelate 4 clase ce reprezinta cele 4 categorii in care se impart produsele, fiecare categorie continand o lista cu produse de tipul corespunzator
-  * Clasa Food: contine produse de tipul FoodProduct
-  * Clasa Electronics: contine produse de tipul ElectronicsProduct
-  * Clasa Books: contine produse de tipul BooksProduct
-  * Clasa Clothes: contine produse de tipul ClothesProduct
+  * Clasa FoodProducts: contine produse de tipul Food
+  * Clasa ElectronicProducts: contine produse de tipul Electronic
+  * Clasa BookProducts: contine produse de tipul Book
+  * Clasa ClothesProducts: contine produse de tipul Clothes
 - Pachetul distributors:
   * Clasa Distributor: obiectele de acest tip sunt membri ai obiectelor de tip Product si indica de la ce distribuitor provine un produs
 - Pachetul Stock:
-  * Clasa Stock: ce contine ca membri cate un obiect de tipul Food, Electronics, Books si Clothes.
+  * Clasa Stock: ce contine ca membri cate un obiect de tipul FoodProducts, ElectronicProducts, BookProducts si ClothesProducts.
   * Interfata ServiceInterface: ce contine metodele ce trebuie implementate in clasa Service
   * Clasa Service: in care sunt implementate metode ce actiuneaza asupra unui obiect de tip Stoc(primit ca parametru)
   * Clasa MainClass: in care declaram un obiect s de tip Stock, ce reprezinta stocul magazinului(cu mai multe produse deja adaugate) si asupra caruia putem executa diferite actiuni/interogari
