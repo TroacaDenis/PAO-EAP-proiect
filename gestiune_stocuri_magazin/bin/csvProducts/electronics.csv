@@ -1,0 +1,4 @@
+id,name,price,qty,distributorId,discountPercentage,guarantee
+7,frigider,2000,10,1,0,5
+8,masina de spalat,999,15,6,0,2
+9,casti,250,50,2,0,0

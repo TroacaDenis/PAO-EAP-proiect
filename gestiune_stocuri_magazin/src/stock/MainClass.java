@@ -1,5 +1,7 @@
 package stock;
 
+import csv.CsvService;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -12,49 +14,91 @@ import products.*;
 public class MainClass {
 	public static void main(String[] args) {
 		
-		Distributor d1 = new Distributor("distribuitor1", "0749779041");
-		Distributor d2 = new Distributor("distribuitor2", "0749779042");
-		Distributor d3 = new Distributor("distribuitor3", "0749779043");
-		Distributor d4 = new Distributor("distribuitor4", "0749779044");
-		Distributor d5 = new Distributor("distribuitor5", "0749779045");
-		Distributor d6 = new Distributor("distribuitor6", "0749779046");
-		Distributor []distributors = {d1,d2,d3,d4,d5,d6};
-		Food fp1 = new Food("paine", 5, 100, d1, LocalDate.of(2022, 4, 2));
-		Food fp2 = new Food("carne", 10, 250, d2, LocalDate.of(2020, 5, 16));
-		Food fp3 = new Food("lapte", 7, 100, d4, LocalDate.of(2020, 4, 7));
-		SortedSet<Food> fproducts = new TreeSet<Food>();
-		fproducts.add(fp1);
-		fproducts.add(fp2);
-		fproducts.add(fp3);
+		CsvService csv = CsvService.getInstance();
+		
+		//distributors
+		ArrayList<String[]> distributorRecords = csv.readFromCsv("src/csvProducts/distributors.csv");
+		ArrayList<Distributor> distributors = new ArrayList<>();
+		//ignoram prima linie doarece contine doar denumirile coloanelor din fisierul csv
+		for (int i = 1; i < distributorRecords.size(); i++) {
+			String name = distributorRecords.get(i)[1];
+			String phoneNumber = distributorRecords.get(i)[2];
+			Distributor d = new Distributor(name, phoneNumber);
+			distributors.add(d);
+			distributorRecords.get(i)[0] = Integer.toString(d.getId());
+		}
+		//scriem in fisierul csv pentru a nota si id-urile generate automat de program
+		csv.writeToCsv("src/csvProducts/distributors.csv", distributorRecords);
+		
+		//food
+		ArrayList<String[]> foodRecords = csv.readFromCsv("src/csvProducts/food.csv");
+		SortedSet<Food> fproducts = new TreeSet<>();
+		for (int i = 1; i < foodRecords.size(); i++) {
+			String name = foodRecords.get(i)[1];
+			double price = Double.parseDouble(foodRecords.get(i)[2]);
+			int qty = Integer.parseInt(foodRecords.get(i)[3]);
+			int distributorId = Integer.parseInt(foodRecords.get(i)[4]);
+			int discountPercentage = Integer.parseInt(foodRecords.get(i)[5]);
+			LocalDate expirationDate = LocalDate.parse(foodRecords.get(i)[6]);
+			Food f = new Food(name, price, qty, distributorId, discountPercentage, expirationDate);
+			fproducts.add(f);
+			foodRecords.get(i)[0] = Integer.toString(f.getId());
+		}
+		csv.writeToCsv("src/csvProducts/food.csv", foodRecords);
 		FoodProducts food = new FoodProducts(fproducts);
 		
-		Clothes cp1 = new Clothes("bluzon", 100, 100, d5, "M");
-		Clothes cp2 = new Clothes("tricou", 30, 150, d3, "S");
-		Clothes cp3 = new Clothes("blugi", 250, 50, d4, "M");
+		//clothes
+		ArrayList<String[]> clothesRecords = csv.readFromCsv("src/csvProducts/clothes.csv");
 		ArrayList<Clothes> cproducts = new ArrayList<>();
-		cproducts.add(cp1);
-		cproducts.add(cp2);
-		cproducts.add(cp3);
+		for (int i = 1; i < clothesRecords.size(); i++) {
+			String name = clothesRecords.get(i)[1];
+			double price = Double.parseDouble(clothesRecords.get(i)[2]);
+			int qty = Integer.parseInt(clothesRecords.get(i)[3]);
+			int distributorId = Integer.parseInt(clothesRecords.get(i)[4]);
+			int discountPercentage = Integer.parseInt(clothesRecords.get(i)[5]);
+			String size = clothesRecords.get(i)[6];
+			Clothes c = new Clothes(name, price, qty, distributorId, discountPercentage, size);
+			cproducts.add(c);
+			clothesRecords.get(i)[0] = Integer.toString(c.getId());
+		}
+		csv.writeToCsv("src/csvProducts/clothes.csv", clothesRecords);
 		ClothesProducts clothes = new ClothesProducts(cproducts);
 		
-		Electronic ep1 = new Electronic("frigider", 2000, 10, d1, 5);
-		Electronic ep2 = new Electronic("masina de spalat", 999, 15, d6, 2);
-		Electronic ep3 = new Electronic("casti", 250, 50, d2, 0);
+		//electronics
+		ArrayList<String[]> electronicRecords = csv.readFromCsv("src/csvProducts/electronics.csv");
 		ArrayList<Electronic> eproducts = new ArrayList<>();
-		eproducts.add(ep1);
-		eproducts.add(ep2);
-		eproducts.add(ep3);
+		for (int i = 1; i < electronicRecords.size(); i++) {
+			String name = electronicRecords.get(i)[1];
+			double price = Double.parseDouble(electronicRecords.get(i)[2]);
+			int qty = Integer.parseInt(electronicRecords.get(i)[3]);
+			int distributorId = Integer.parseInt(electronicRecords.get(i)[4]);
+			int discountPercentage = Integer.parseInt(electronicRecords.get(i)[5]);
+			int guarantee = Integer.parseInt(electronicRecords.get(i)[6]);
+			Electronic e = new Electronic(name, price, qty, distributorId, discountPercentage, guarantee);
+			eproducts.add(e);
+			electronicRecords.get(i)[0] = Integer.toString(e.getId());
+		}
+		csv.writeToCsv("src/csvProducts/electronics.csv", electronicRecords);
 		ElectronicProducts electronics = new ElectronicProducts(eproducts);
 		
-		Book bp1 = new Book("book1", 10, 120, d1, "author1");
-		Book bp2 = new Book("book2", 12, 123, d4, "author1");
-		Book bp3 = new Book("book3", 15, 234, d2, "author3");
+		//books
+		ArrayList<String[]> bookRecords = csv.readFromCsv("src/csvProducts/books.csv");
 		ArrayList<Book> bproducts = new ArrayList<>();
-		bproducts.add(bp1);
-		bproducts.add(bp2);
-		bproducts.add(bp3);
+		for (int i = 1; i < bookRecords.size(); i++) {
+			String name = bookRecords.get(i)[1];
+			double price = Double.parseDouble(bookRecords.get(i)[2]);
+			int qty = Integer.parseInt(bookRecords.get(i)[3]);
+			int distributorId = Integer.parseInt(bookRecords.get(i)[4]);
+			int discountPercentage = Integer.parseInt(bookRecords.get(i)[5]);
+			String author = bookRecords.get(i)[6];
+			Book b = new Book(name, price, qty, distributorId, discountPercentage, author);
+			bproducts.add(b);
+			bookRecords.get(i)[0] = Integer.toString(b.getId());
+		}
+		csv.writeToCsv("src/csvProducts/books.csv", bookRecords);
 		BookProducts books = new BookProducts(bproducts);
 		
+		//services
 		Stock s = new Stock(food, electronics, clothes, books);
 		Service service = new Service();
 		while(true) {
@@ -109,10 +153,10 @@ public class MainClass {
 				int qty = myScanner.nextInt();
 				myScanner.nextLine();
 				System.out.println("Alegeti un distribuitor(numarul lui):");
-				for (int i = 0; i < distributors.length; i++) {
-					System.out.println((i+1) + "." + distributors[i].getName());
+				for (int i = 0; i < distributors.size(); i++) {
+					System.out.println((i+1) + "." + distributors.get(i).getName());
 				}
-				Distributor distributor = distributors[myScanner.nextInt()-1];
+				int distributorId = distributors.get(myScanner.nextInt()-1).getId();
 				myScanner.nextLine();
 				switch (productCategory) {
 				case 1:
@@ -126,23 +170,23 @@ public class MainClass {
 					System.out.print("Ziua:");
 					int expirationDay = myScanner.nextInt();
 					myScanner.nextLine();
-					service.addProduct(s, new Food(name, price, qty, distributor, LocalDate.of(expirationYear, expirationMonth, expirationDay)));
+					service.addProduct(s, new Food(name, price, qty, distributorId, LocalDate.of(expirationYear, expirationMonth, expirationDay)));
 					break;
 				case 2:
 					System.out.print("Ani garantie:");
 					int guarantee = myScanner.nextInt();
 					myScanner.nextLine();
-					service.addProduct(s, new Electronic(name, price, qty, distributor, guarantee));
+					service.addProduct(s, new Electronic(name, price, qty, distributorId, guarantee));
 					break;
 				case 3:
 					System.out.print("Marime(S,M,L,XL):");
 					String size = myScanner.nextLine();
-					service.addProduct(s, new Clothes(name, price, qty, distributor, size));
+					service.addProduct(s, new Clothes(name, price, qty, distributorId, size));
 					break;
 				case 4:
 					System.out.print("Autor:");
 					String author = myScanner.nextLine();
-					service.addProduct(s, new Book(name, price, qty, distributor, author));
+					service.addProduct(s, new Book(name, price, qty, distributorId, author));
 					break;
 
 				default:
@@ -172,10 +216,10 @@ public class MainClass {
 				break;
 			case 7:
 				System.out.println("Alegeti un distribuitor(numarul lui):");
-				for (int i = 0; i < distributors.length; i++) {
-					System.out.println((i+1) + "." + distributors[i].getName());
+				for (int i = 0; i < distributors.size(); i++) {
+					System.out.println((i+1) + "." + distributors.get(i).getName());
 				}
-				service.distributorProducts(s, distributors[myScanner.nextInt()-1].getId());
+				service.distributorProducts(s, distributors.get(myScanner.nextInt()-1).getId());
 				myScanner.nextLine();
 				System.out.print("\n");
 				break;

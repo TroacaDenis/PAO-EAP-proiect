@@ -1,15 +1,13 @@
 package products;
 
-import distributors.Distributor;
-
 public class Book extends Product {
 	private String author;
-	public Book(String name, double price, int qty, Distributor distributor, int discountPercentage, String author) {
-		super(name, price, qty, distributor, discountPercentage);
+	public Book(String name, double price, int qty, int distributorId, int discountPercentage, String author) {
+		super(name, price, qty, distributorId, discountPercentage);
 		this.author = author;
 	}
-	public Book(String name, double price, int qty, Distributor distributor, String author) {
-		super(name, price, qty, distributor);
+	public Book(String name, double price, int qty, int distributorId, String author) {
+		super(name, price, qty, distributorId);
 		this.author = author;
 	}
 	

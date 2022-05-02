@@ -1,28 +1,25 @@
 package products;
 
-
-import distributors.Distributor;
-
 public class Product {
 	static private int idMaker = 0;
 	private int id;
 	private String name;
 	private double price;
 	private int qty;
-	private Distributor distributor;
+	private int distributorId;
 	private int discountPercentage;
 	
-	public Product(String name, double price, int qty, Distributor distributor, int discountPercentage) {
+	public Product(String name, double price, int qty, int distributorId, int discountPercentage) {
 		idMaker++;
 		this.setId(idMaker);
 		this.setName(name);
 		this.setPrice(price);
 		this.setQty(qty);
-		this.setDistributor(distributor);
+		this.setDistributor(distributorId);
 		this.setDiscountPercentage(discountPercentage);
 	}
-	public Product(String name, double price, int qty, Distributor distributor) {
-		this(name, price, qty, distributor, 0);
+	public Product(String name, double price, int qty, int distributorId) {
+		this(name, price, qty, distributorId, 0);
 	}
 
 	public String getName() {
@@ -57,12 +54,12 @@ public class Product {
 		this.id = id;
 	}
 	
-	public Distributor getDistributor() {
-		return distributor;
+	public int getDistributorId() {
+		return distributorId;
 	}
 
-	public void setDistributor(Distributor distributor) {
-		this.distributor = distributor;
+	public void setDistributor(int distributorId) {
+		this.distributorId = distributorId;
 	}
 	
 	public int getDiscountPercentage() {
@@ -76,7 +73,7 @@ public class Product {
 		if(productId != this.id)
 			return false;
 		if(qty > this.qty) {
-			System.out.println("Stoc insuficient. Contactati distribuitorul " + this.distributor.getName() + " pentru a mai achizitiona produse");
+			System.out.println("Stoc insuficient. Contactati distribuitorul cu id-ul " + this.distributorId + " pentru a mai achizitiona produse");
 		}
 		else {
 			this.qty -=qty;
@@ -87,7 +84,7 @@ public class Product {
 	
 	@Override
 	public String toString() {
-		return ("Nume: " + name + "\nPret: " + price + " lei" + "\nCantitate: " + qty + "\nDistribuitor: " + distributor.getName());
+		return ("Nume: " + name + "\nPret: " + price + " lei" + "\nCantitate: " + qty + "\nId distribuitor: " + distributorId);
 	}
 
 

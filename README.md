@@ -20,6 +20,10 @@
   * Interfata ServiceInterface: ce contine metodele ce trebuie implementate in clasa Service
   * Clasa Service: in care sunt implementate metode ce actiuneaza asupra unui obiect de tip Stoc(primit ca parametru)
   * Clasa MainClass: in care declaram un obiect s de tip Stock, ce reprezinta stocul magazinului(cu mai multe produse deja adaugate) si asupra caruia putem executa diferite actiuni/interogari
+- Pachetul csv:
+  * Clasa CsvService: contine metode pentru citirea si scrierea in fisiere de tip csv si serviciul de audit
+- Folder-ul csvProducts: contine fisiere csv pentru clasele Distributor, Food, Book, Electronic si Clothes
+- Folder-ul csvActions: contine fisierul csv in care sunt scrise actiunile executate si cand au fost executate
 
 ## Actiuni/interogari:
 1. Afiseaza toate informatiile despre un produs cu un anumit id
