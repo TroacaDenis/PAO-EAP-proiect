@@ -1,6 +1,5 @@
 package stock;
 
-import csv.CsvService;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,16 +7,18 @@ import java.util.Scanner;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import csv.*;
 import categories.*;
 import distributors.*;
 import products.*;
 public class MainClass {
 	public static void main(String[] args) {
 		
-		CsvService csv = CsvService.getInstance();
+		CsvReader csvReader = CsvReader.getInstance();
+		CsvWriter csvWriter = CsvWriter.getInstance();
 		
 		//distributors
-		ArrayList<String[]> distributorRecords = csv.readFromCsv("src/csvProducts/distributors.csv");
+		ArrayList<String[]> distributorRecords = csvReader.readFromCsv("src/csvProducts/distributors.csv");
 		ArrayList<Distributor> distributors = new ArrayList<>();
 		//ignoram prima linie doarece contine doar denumirile coloanelor din fisierul csv
 		for (int i = 1; i < distributorRecords.size(); i++) {
@@ -28,10 +29,10 @@ public class MainClass {
 			distributorRecords.get(i)[0] = Integer.toString(d.getId());
 		}
 		//scriem in fisierul csv pentru a nota si id-urile generate automat de program
-		csv.writeToCsv("src/csvProducts/distributors.csv", distributorRecords);
+		csvWriter.writeToCsv("src/csvProducts/distributors.csv", distributorRecords);
 		
 		//food
-		ArrayList<String[]> foodRecords = csv.readFromCsv("src/csvProducts/food.csv");
+		ArrayList<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
 		SortedSet<Food> fproducts = new TreeSet<>();
 		for (int i = 1; i < foodRecords.size(); i++) {
 			String name = foodRecords.get(i)[1];
@@ -44,11 +45,11 @@ public class MainClass {
 			fproducts.add(f);
 			foodRecords.get(i)[0] = Integer.toString(f.getId());
 		}
-		csv.writeToCsv("src/csvProducts/food.csv", foodRecords);
+		csvWriter.writeToCsv("src/csvProducts/food.csv", foodRecords);
 		FoodProducts food = new FoodProducts(fproducts);
 		
 		//clothes
-		ArrayList<String[]> clothesRecords = csv.readFromCsv("src/csvProducts/clothes.csv");
+		ArrayList<String[]> clothesRecords = csvReader.readFromCsv("src/csvProducts/clothes.csv");
 		ArrayList<Clothes> cproducts = new ArrayList<>();
 		for (int i = 1; i < clothesRecords.size(); i++) {
 			String name = clothesRecords.get(i)[1];
@@ -61,11 +62,11 @@ public class MainClass {
 			cproducts.add(c);
 			clothesRecords.get(i)[0] = Integer.toString(c.getId());
 		}
-		csv.writeToCsv("src/csvProducts/clothes.csv", clothesRecords);
+		csvWriter.writeToCsv("src/csvProducts/clothes.csv", clothesRecords);
 		ClothesProducts clothes = new ClothesProducts(cproducts);
 		
 		//electronics
-		ArrayList<String[]> electronicRecords = csv.readFromCsv("src/csvProducts/electronics.csv");
+		ArrayList<String[]> electronicRecords = csvReader.readFromCsv("src/csvProducts/electronics.csv");
 		ArrayList<Electronic> eproducts = new ArrayList<>();
 		for (int i = 1; i < electronicRecords.size(); i++) {
 			String name = electronicRecords.get(i)[1];
@@ -78,11 +79,11 @@ public class MainClass {
 			eproducts.add(e);
 			electronicRecords.get(i)[0] = Integer.toString(e.getId());
 		}
-		csv.writeToCsv("src/csvProducts/electronics.csv", electronicRecords);
+		csvWriter.writeToCsv("src/csvProducts/electronics.csv", electronicRecords);
 		ElectronicProducts electronics = new ElectronicProducts(eproducts);
 		
 		//books
-		ArrayList<String[]> bookRecords = csv.readFromCsv("src/csvProducts/books.csv");
+		ArrayList<String[]> bookRecords = csvReader.readFromCsv("src/csvProducts/books.csv");
 		ArrayList<Book> bproducts = new ArrayList<>();
 		for (int i = 1; i < bookRecords.size(); i++) {
 			String name = bookRecords.get(i)[1];
@@ -95,7 +96,7 @@ public class MainClass {
 			bproducts.add(b);
 			bookRecords.get(i)[0] = Integer.toString(b.getId());
 		}
-		csv.writeToCsv("src/csvProducts/books.csv", bookRecords);
+		csvWriter.writeToCsv("src/csvProducts/books.csv", bookRecords);
 		BookProducts books = new BookProducts(bproducts);
 		
 		//services

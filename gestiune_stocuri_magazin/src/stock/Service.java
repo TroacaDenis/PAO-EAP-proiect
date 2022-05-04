@@ -7,17 +7,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import csv.CsvService;
+import csv.CsvReader;
+import csv.*;
+import csv.CsvWriter;
 
 public class Service implements ServiceInterface{
 
-	private CsvService csv = CsvService.getInstance();
+	private CsvAudit csvAudit = CsvAudit.getInstance();
 	private void registerAction(String action){
-		ArrayList<ArrayList<String>> records = new ArrayList<>();
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		String timestamp = LocalDateTime.now().format(format);
-		records.add(new ArrayList<>(Arrays.asList(action, timestamp)));
-		csv.auditCsv("src/csvActions/actiuniRealizate.csv", records);
+		String [] record = {action, timestamp};
+		csvAudit.auditCsv("src/csvActions/actiuniRealizate.csv", record);
 	}
 	
 	

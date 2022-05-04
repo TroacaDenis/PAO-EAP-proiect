@@ -6,7 +6,7 @@ import java.util.TreeSet;
 
 import products.Food;
 import products.Product;
-import csv.CsvService;
+import csv.*;
 
 public class FoodProducts extends Category {
 	private SortedSet<Food> products; 
@@ -41,8 +41,9 @@ public class FoodProducts extends Category {
 	}
 	
 	public void applyDiscount(int n) {
-		CsvService csv = CsvService.getInstance();
-		ArrayList<String[]> foodRecords = csv.readFromCsv("src/csvProducts/food.csv");
+		CsvReader csvReader = CsvReader.getInstance();
+		CsvWriter csvWriter = CsvWriter.getInstance();
+		ArrayList<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
 		for(Food p : products) {
 			if(p.getDiscountPercentage() == 0) {
 				p.setDiscountPercentage(25);
@@ -56,7 +57,7 @@ public class FoodProducts extends Category {
 					}
 				}
 				if(n == 0) {
-					csv.writeToCsv("src/csvProducts/food.csv", foodRecords);
+					csvWriter.writeToCsv("src/csvProducts/food.csv", foodRecords);
 					return;
 				}
 			}

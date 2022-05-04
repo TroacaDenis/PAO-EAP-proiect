@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import categories.*;
 import products.*;
-import csv.CsvService;
+import csv.*;
 
 public class Stock {
 	private FoodProducts food;
@@ -13,7 +13,8 @@ public class Stock {
 	private ClothesProducts clothes;
 	private BookProducts books;
 	
-	private CsvService csv = CsvService.getInstance();
+	private CsvReader csvReader = CsvReader.getInstance();
+	private CsvWriter csvWriter = CsvWriter.getInstance();
 	
 	public Stock() {
 		this.food = new FoodProducts();
@@ -120,9 +121,9 @@ public class Stock {
 				}
 			}
 			food.addProduct((Food) p);
-			ArrayList<String[]> foodRecords = csv.readFromCsv("src/csvProducts/food.csv");
+			ArrayList<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
 			foodRecords.add(new String[] {Integer.toString(p.getId()), p.getName(), Double.toString(p.getPrice()), Integer.toString(p.getQty()), Integer.toString(p.getDistributorId()), Integer.toString(p.getDiscountPercentage()), ((Food) p).getExpirationDate().toString()});
-			csv.writeToCsv("src/csvProducts/food.csv", foodRecords);
+			csvWriter.writeToCsv("src/csvProducts/food.csv", foodRecords);
 			System.out.println("Produs adaugat");
 			return;
 		}
@@ -134,9 +135,9 @@ public class Stock {
 				}
 			}
 			electronics.addProduct((Electronic) p);
-			ArrayList<String[]> foodRecords = csv.readFromCsv("src/csvProducts/food.csv");
+			ArrayList<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
 			foodRecords.add(new String[] {Integer.toString(p.getId()), p.getName(), Double.toString(p.getPrice()), Integer.toString(p.getQty()), Integer.toString(p.getDistributorId()), Integer.toString(p.getDiscountPercentage()), Integer.toString(((Electronic)p).getGuarantee())});
-			csv.writeToCsv("src/csvProducts/food.csv", foodRecords);
+			csvWriter.writeToCsv("src/csvProducts/food.csv", foodRecords);
 			System.out.println("Produs adaugat");
 			return;
 		}
@@ -148,9 +149,9 @@ public class Stock {
 				}
 			}
 			clothes.addProduct((Clothes) p);
-			ArrayList<String[]> foodRecords = csv.readFromCsv("src/csvProducts/clothes.csv");
+			ArrayList<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/clothes.csv");
 			foodRecords.add(new String[] {Integer.toString(p.getId()), p.getName(), Double.toString(p.getPrice()), Integer.toString(p.getQty()), Integer.toString(p.getDistributorId()), Integer.toString(p.getDiscountPercentage()), ((Clothes) p).getSize()});
-			csv.writeToCsv("src/csvProducts/clothes.csv", foodRecords);
+			csvWriter.writeToCsv("src/csvProducts/clothes.csv", foodRecords);
 			System.out.println("Produs adaugat");
 			return;
 		}
@@ -162,20 +163,20 @@ public class Stock {
 				}
 			}
 			books.addProduct((Book) p);
-			ArrayList<String[]> foodRecords = csv.readFromCsv("src/csvProducts/food.csv");
+			ArrayList<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
 			foodRecords.add(new String[] {Integer.toString(p.getId()), p.getName(), Double.toString(p.getPrice()), Integer.toString(p.getQty()), Integer.toString(p.getDistributorId()), Integer.toString(p.getDiscountPercentage()), ((Book) p).getAuthor()});
-			csv.writeToCsv("src/csvProducts/food.csv", foodRecords);
+			csvWriter.writeToCsv("src/csvProducts/food.csv", foodRecords);
 			System.out.println("Produs adaugat");
 			return;
 		}
 	}
 	
 	private void removeFromCsv(int productId, String path) {
-		ArrayList<String[]> records = csv.readFromCsv(path);
+		ArrayList<String[]> records = csvReader.readFromCsv(path);
 		for (int i = 1; i < records.size(); i++) {
 			if (Integer.parseInt(records.get(i)[0]) == productId) {
 				records.remove(i);
-				csv.writeToCsv(path, records);
+				csvWriter.writeToCsv(path, records);
 				break;
 			}
 		}
@@ -266,11 +267,11 @@ public class Stock {
 	}
 	
 	private void reduceCsvQuantity(int productId, String path, int newQty) {
-		ArrayList<String[]> records = csv.readFromCsv(path);
+		ArrayList<String[]> records = csvReader.readFromCsv(path);
 		for (int i = 1; i < records.size(); i++) {
 			if (Integer.parseInt(records.get(i)[0]) == productId) {
 				records.get(i)[3] = Integer.toString(newQty);
-				csv.writeToCsv(path, records);
+				csvWriter.writeToCsv(path, records);
 				break;
 			}
 		}

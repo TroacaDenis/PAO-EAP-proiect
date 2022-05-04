@@ -21,7 +21,9 @@
   * Clasa Service: in care sunt implementate metode ce actiuneaza asupra unui obiect de tip Stoc(primit ca parametru)
   * Clasa MainClass: in care declaram un obiect s de tip Stock, ce reprezinta stocul magazinului(cu mai multe produse deja adaugate) si asupra caruia putem executa diferite actiuni/interogari
 - Pachetul csv:
-  * Clasa CsvService: contine metode pentru citirea si scrierea in fisiere de tip csv si serviciul de audit
+  * Clasa CsvReader: servicul pentru citire din fisiere de tip csv
+  * Clasa CsvWriter: servicul pentru scriere in fisiere de tip csv
+  * Clasa CsvAudit: servicul pentru adaugarea actiunilor executate intr-un fisier de tip csv 
 - Folder-ul csvProducts: contine fisiere csv pentru clasele Distributor, Food, Book, Electronic si Clothes
 - Folder-ul csvActions: contine fisierul csv in care sunt scrise actiunile executate si cand au fost executate
 
