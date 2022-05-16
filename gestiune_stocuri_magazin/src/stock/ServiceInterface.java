@@ -23,7 +23,7 @@ public interface ServiceInterface {
 	void applyDiscount(Stock s, int n);
 	
 	//afiseaza id-ul si numele tuturor produselor achizitionate de la un distribuitor
-	void distributorProducts(Stock s, int DistributorInt);
+	void distributorProducts(Stock s, int DistributorId);
 	
 	//scade cu n cantitate unui produs daca mai sunt suficiente bucati ramase in stoc
 	void reduceQty(Stock s, int productId, int qty);

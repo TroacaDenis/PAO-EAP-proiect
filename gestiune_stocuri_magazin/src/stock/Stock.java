@@ -2,16 +2,21 @@ package stock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import categories.*;
 import products.*;
+import csv.*;
 
 public class Stock {
 	private FoodProducts food;
 	private ElectronicProducts electronics;
 	private ClothesProducts clothes;
 	private BookProducts books;
+	
+	private CsvReader csvReader = CsvReader.getInstance();
+	private CsvWriter csvWriter = CsvWriter.getInstance();
 	
 	public Stock() {
 		this.food = new FoodProducts();
@@ -118,6 +123,9 @@ public class Stock {
 				}
 			}
 			food.addProduct((Food) p);
+			List<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
+			foodRecords.add(new String[] {Integer.toString(p.getId()), p.getName(), Double.toString(p.getPrice()), Integer.toString(p.getQty()), Integer.toString(p.getDistributorId()), Integer.toString(p.getDiscountPercentage()), ((Food) p).getExpirationDate().toString()});
+			csvWriter.writeToCsv("src/csvProducts/food.csv", foodRecords);
 			System.out.println("Produs adaugat");
 			return;
 		}
@@ -129,6 +137,9 @@ public class Stock {
 				}
 			}
 			electronics.addProduct((Electronic) p);
+			List<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
+			foodRecords.add(new String[] {Integer.toString(p.getId()), p.getName(), Double.toString(p.getPrice()), Integer.toString(p.getQty()), Integer.toString(p.getDistributorId()), Integer.toString(p.getDiscountPercentage()), Integer.toString(((Electronic)p).getGuarantee())});
+			csvWriter.writeToCsv("src/csvProducts/food.csv", foodRecords);
 			System.out.println("Produs adaugat");
 			return;
 		}
@@ -140,6 +151,9 @@ public class Stock {
 				}
 			}
 			clothes.addProduct((Clothes) p);
+			List<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/clothes.csv");
+			foodRecords.add(new String[] {Integer.toString(p.getId()), p.getName(), Double.toString(p.getPrice()), Integer.toString(p.getQty()), Integer.toString(p.getDistributorId()), Integer.toString(p.getDiscountPercentage()), ((Clothes) p).getSize()});
+			csvWriter.writeToCsv("src/csvProducts/clothes.csv", foodRecords);
 			System.out.println("Produs adaugat");
 			return;
 		}
@@ -151,15 +165,29 @@ public class Stock {
 				}
 			}
 			books.addProduct((Book) p);
+			List<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
+			foodRecords.add(new String[] {Integer.toString(p.getId()), p.getName(), Double.toString(p.getPrice()), Integer.toString(p.getQty()), Integer.toString(p.getDistributorId()), Integer.toString(p.getDiscountPercentage()), ((Book) p).getAuthor()});
+			csvWriter.writeToCsv("src/csvProducts/food.csv", foodRecords);
 			System.out.println("Produs adaugat");
 			return;
 		}
 	}
 	
+	private void removeFromCsv(int productId, String path) {
+		List<String[]> records = csvReader.readFromCsv(path);
+		for (int i = 1; i < records.size(); i++) {
+			if (Integer.parseInt(records.get(i)[0]) == productId) {
+				records.remove(i);
+				csvWriter.writeToCsv(path, records);
+				break;
+			}
+		}
+	}
 	public void removeProduct(int productId) {
 		for(Food f : food.getProducts()) {
 			if(productId == f.getId()) {
 				food.removeProduct(f);
+				removeFromCsv(productId, "src/csvProducts/food.csv");
 				System.out.println("Produs sters");
 				return;
 			}
@@ -167,6 +195,7 @@ public class Stock {
 		for(Electronic e : electronics.getProducts()) {
 			if(productId == e.getId()) {
 				electronics.removeProduct(e);
+				removeFromCsv(productId, "src/csvProducts/electronics.csv");
 				System.out.println("Produs sters");
 				return;
 			}
@@ -174,6 +203,7 @@ public class Stock {
 		for(Clothes c : clothes.getProducts()) {
 			if(productId == c.getId()) {
 				clothes.removeProduct(c);
+				removeFromCsv(productId, "src/csvProducts/clothes.csv");
 				System.out.println("Produs sters");
 				return;
 			}
@@ -181,6 +211,7 @@ public class Stock {
 		for(Book b : books.getProducts()) {
 			if(productId == b.getId()) {
 				books.removeProduct(b);
+				removeFromCsv(productId, "src/csvProducts/books.csv");
 				System.out.println("Produs sters");
 				return;
 			}
@@ -209,25 +240,25 @@ public class Stock {
 	public void distributorProducts(int DistributorId) {
 		boolean printResults = false;
 		for(Food f : food.getProducts()) {
-			if(DistributorId == f.getDistributor().getId()) {
+			if(DistributorId == f.getDistributorId()) {
 				System.out.println("Id produs: " + f.getId() + ", Nume produs: " + f.getName());
 				printResults = true;
 			}
 		}
 		for(Electronic e : electronics.getProducts()) {
-			if(DistributorId == e.getDistributor().getId()) {
+			if(DistributorId == e.getDistributorId()) {
 				System.out.println("Id produs: " + e.getId() + ", Nume produs: " + e.getName());
 				printResults = true;
 			}
 		}
 		for(Clothes c : clothes.getProducts()) {
-			if(DistributorId == c.getDistributor().getId()) {
+			if(DistributorId == c.getDistributorId()) {
 				System.out.println("Id produs: " + c.getId() + ", Nume produs: " + c.getName());
 				printResults = true;
 			}
 		}
 		for(Book b : books.getProducts()) {
-			if(DistributorId == b.getDistributor().getId()) {
+			if(DistributorId == b.getDistributorId()) {
 				System.out.println("Id produs: " + b.getId() + ", Nume produs: " + b.getName());
 				printResults = true;
 			}
@@ -237,24 +268,38 @@ public class Stock {
 		}
 	}
 	
+	private void reduceCsvQuantity(int productId, String path, int newQty) {
+		List<String[]> records = csvReader.readFromCsv(path);
+		for (int i = 1; i < records.size(); i++) {
+			if (Integer.parseInt(records.get(i)[0]) == productId) {
+				records.get(i)[3] = Integer.toString(newQty);
+				csvWriter.writeToCsv(path, records);
+				break;
+			}
+		}
+	}
 	public void reduceQty(int productId, int qty) {
 		for(Food f : food.getProducts()) {
 			if(f.reduceQty(productId, qty)) {
+				reduceCsvQuantity(productId, "src/csvProducts/food.csv", f.getQty());
 				return;
 			}
 		}
 		for(Electronic e : electronics.getProducts()) {
 			if(e.reduceQty(productId, qty)) {
+				reduceCsvQuantity(productId, "src/csvProducts/electronics.csv", e.getQty());
 				return;
 			}
 		}
 		for(Clothes c : clothes.getProducts()) {
 			if(c.reduceQty(productId, qty)) {
+				reduceCsvQuantity(productId, "src/csvProducts/clothes.csv", c.getQty());
 				return;
 			}
 		}
 		for(Book b : books.getProducts()) {
 			if(b.reduceQty(productId, qty)) {
+				reduceCsvQuantity(productId, "src/csvProducts/books.csv", b.getQty());
 				return;
 			}
 		}
@@ -293,15 +338,15 @@ public class Stock {
 	}
 	
 	public void printBooks() {
-		HashMap<String, ArrayList<Book>> booksByAuthor = new HashMap<String, ArrayList<Book>>();
+		Map<String, List<Book>> booksByAuthor = new HashMap<>();
 		for(Book b : books.getProducts()) {
 			if(!booksByAuthor.containsKey(b.getAuthor())) {
-				ArrayList<Book> aux = new ArrayList<Book>();
+				List<Book> aux = new ArrayList<Book>();
 				aux.add(b);
 				booksByAuthor.put(b.getAuthor(), aux);
 			}
 			else {
-				ArrayList<Book> aux = booksByAuthor.get(b.getAuthor());
+				List<Book> aux = booksByAuthor.get(b.getAuthor());
 				aux.add(b);
 				booksByAuthor.put(b.getAuthor(), aux);
 			}

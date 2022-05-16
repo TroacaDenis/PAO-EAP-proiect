@@ -2,17 +2,15 @@ package products;
 
 import java.time.LocalDate;
 
-import distributors.Distributor;
-
 public class Food extends Product implements Comparable<Food>{
 	private LocalDate expirationDate;
 	
-	public Food(String name, double price, int qty, Distributor distributor, int discountPercentage, LocalDate expirationDate) {
-		super(name, price, qty, distributor, discountPercentage);
+	public Food(String name, double price, int qty, int distributorId, int discountPercentage, LocalDate expirationDate) {
+		super(name, price, qty, distributorId, discountPercentage);
 		this.setExpirationDate(expirationDate);
 	}
-	public Food(String name, double price, int qty, Distributor distributor, LocalDate expirationDate) {
-		super(name, price, qty, distributor);
+	public Food(String name, double price, int qty, int distributorId, LocalDate expirationDate) {
+		super(name, price, qty, distributorId);
 		this.setExpirationDate(expirationDate);
 	}
 

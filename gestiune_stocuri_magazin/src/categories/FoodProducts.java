@@ -1,10 +1,13 @@
 package categories;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
 import products.Food;
 import products.Product;
+import csv.*;
 
 public class FoodProducts extends Category {
 	private SortedSet<Food> products; 
@@ -39,12 +42,23 @@ public class FoodProducts extends Category {
 	}
 	
 	public void applyDiscount(int n) {
+		CsvReader csvReader = CsvReader.getInstance();
+		CsvWriter csvWriter = CsvWriter.getInstance();
+		List<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
 		for(Food p : products) {
 			if(p.getDiscountPercentage() == 0) {
 				p.setDiscountPercentage(25);
 				p.setPrice(3*p.getPrice()/4);
 				n--;
+				for (int i = 1; i < foodRecords.size(); i++) {
+					if (Integer.parseInt(foodRecords.get(i)[0]) == p.getId()) {
+						foodRecords.get(i)[2] = Double.toString(p.getPrice());
+						foodRecords.get(i)[5] = Integer.toString(p.getDiscountPercentage());
+						break;
+					}
+				}
 				if(n == 0) {
+					csvWriter.writeToCsv("src/csvProducts/food.csv", foodRecords);
 					return;
 				}
 			}
