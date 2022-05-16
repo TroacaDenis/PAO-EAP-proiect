@@ -1,6 +1,7 @@
 package categories;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -43,7 +44,7 @@ public class FoodProducts extends Category {
 	public void applyDiscount(int n) {
 		CsvReader csvReader = CsvReader.getInstance();
 		CsvWriter csvWriter = CsvWriter.getInstance();
-		ArrayList<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
+		List<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
 		for(Food p : products) {
 			if(p.getDiscountPercentage() == 0) {
 				p.setDiscountPercentage(25);

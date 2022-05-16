@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public final class CsvWriter {
 	
@@ -19,7 +20,7 @@ public final class CsvWriter {
         }
         return INSTANCE;
 	}
-	public void writeToCsv(String path, ArrayList<String[]> records) {
+	public void writeToCsv(String path, List<String[]> records) {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(path))){
 			records.stream().map(x->String.join(",", x)).forEach(y->{
 				try {

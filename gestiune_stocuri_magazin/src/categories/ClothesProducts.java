@@ -1,26 +1,27 @@
 package categories;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import products.Clothes;
 import products.Product;
 
 public class ClothesProducts extends Category {
-	private ArrayList<Clothes> products;
+	private List<Clothes> products;
 	
 	public ClothesProducts() {
 		super();
 		this.products = new ArrayList<> ();
 	}
-	public ClothesProducts(ArrayList<Clothes> products) {
+	public ClothesProducts(List<Clothes> products) {
 		super();
 		this.products = products;
 	}
 	
-	public ArrayList<Clothes> getProducts() {
+	public List<Clothes> getProducts() {
 		return products;
 	}
-	public void setProducts(ArrayList<Clothes> products) {
+	public void setProducts(List<Clothes> products) {
 		this.products = products;
 	}
 

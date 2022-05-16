@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public final class CsvReader {
 	
@@ -20,8 +21,8 @@ public final class CsvReader {
         return INSTANCE;
 	}
 	
-	public ArrayList<String []> readFromCsv(String path){
-		ArrayList<String []> records = new ArrayList<>();
+	public List<String[]> readFromCsv(String path){
+		List<String []> records = new ArrayList<>();
 		try (BufferedReader br = new BufferedReader(new FileReader(path))) {
 		    String line;
 		    

@@ -3,6 +3,7 @@ package stock;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -18,8 +19,8 @@ public class MainClass {
 		CsvWriter csvWriter = CsvWriter.getInstance();
 		
 		//distributors
-		ArrayList<String[]> distributorRecords = csvReader.readFromCsv("src/csvProducts/distributors.csv");
-		ArrayList<Distributor> distributors = new ArrayList<>();
+		List<String[]> distributorRecords = csvReader.readFromCsv("src/csvProducts/distributors.csv");
+		List<Distributor> distributors = new ArrayList<>();
 		//ignoram prima linie doarece contine doar denumirile coloanelor din fisierul csv
 		for (int i = 1; i < distributorRecords.size(); i++) {
 			String name = distributorRecords.get(i)[1];
@@ -32,7 +33,7 @@ public class MainClass {
 		csvWriter.writeToCsv("src/csvProducts/distributors.csv", distributorRecords);
 		
 		//food
-		ArrayList<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
+		List<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
 		SortedSet<Food> fproducts = new TreeSet<>();
 		for (int i = 1; i < foodRecords.size(); i++) {
 			String name = foodRecords.get(i)[1];
@@ -49,8 +50,8 @@ public class MainClass {
 		FoodProducts food = new FoodProducts(fproducts);
 		
 		//clothes
-		ArrayList<String[]> clothesRecords = csvReader.readFromCsv("src/csvProducts/clothes.csv");
-		ArrayList<Clothes> cproducts = new ArrayList<>();
+		List<String[]> clothesRecords = csvReader.readFromCsv("src/csvProducts/clothes.csv");
+		List<Clothes> cproducts = new ArrayList<>();
 		for (int i = 1; i < clothesRecords.size(); i++) {
 			String name = clothesRecords.get(i)[1];
 			double price = Double.parseDouble(clothesRecords.get(i)[2]);
@@ -66,8 +67,8 @@ public class MainClass {
 		ClothesProducts clothes = new ClothesProducts(cproducts);
 		
 		//electronics
-		ArrayList<String[]> electronicRecords = csvReader.readFromCsv("src/csvProducts/electronics.csv");
-		ArrayList<Electronic> eproducts = new ArrayList<>();
+		List<String[]> electronicRecords = csvReader.readFromCsv("src/csvProducts/electronics.csv");
+		List<Electronic> eproducts = new ArrayList<>();
 		for (int i = 1; i < electronicRecords.size(); i++) {
 			String name = electronicRecords.get(i)[1];
 			double price = Double.parseDouble(electronicRecords.get(i)[2]);
@@ -83,8 +84,8 @@ public class MainClass {
 		ElectronicProducts electronics = new ElectronicProducts(eproducts);
 		
 		//books
-		ArrayList<String[]> bookRecords = csvReader.readFromCsv("src/csvProducts/books.csv");
-		ArrayList<Book> bproducts = new ArrayList<>();
+		List<String[]> bookRecords = csvReader.readFromCsv("src/csvProducts/books.csv");
+		List<Book> bproducts = new ArrayList<>();
 		for (int i = 1; i < bookRecords.size(); i++) {
 			String name = bookRecords.get(i)[1];
 			double price = Double.parseDouble(bookRecords.get(i)[2]);

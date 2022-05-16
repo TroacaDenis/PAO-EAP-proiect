@@ -2,6 +2,8 @@ package stock;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import categories.*;
 import products.*;
@@ -121,7 +123,7 @@ public class Stock {
 				}
 			}
 			food.addProduct((Food) p);
-			ArrayList<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
+			List<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
 			foodRecords.add(new String[] {Integer.toString(p.getId()), p.getName(), Double.toString(p.getPrice()), Integer.toString(p.getQty()), Integer.toString(p.getDistributorId()), Integer.toString(p.getDiscountPercentage()), ((Food) p).getExpirationDate().toString()});
 			csvWriter.writeToCsv("src/csvProducts/food.csv", foodRecords);
 			System.out.println("Produs adaugat");
@@ -135,7 +137,7 @@ public class Stock {
 				}
 			}
 			electronics.addProduct((Electronic) p);
-			ArrayList<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
+			List<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
 			foodRecords.add(new String[] {Integer.toString(p.getId()), p.getName(), Double.toString(p.getPrice()), Integer.toString(p.getQty()), Integer.toString(p.getDistributorId()), Integer.toString(p.getDiscountPercentage()), Integer.toString(((Electronic)p).getGuarantee())});
 			csvWriter.writeToCsv("src/csvProducts/food.csv", foodRecords);
 			System.out.println("Produs adaugat");
@@ -149,7 +151,7 @@ public class Stock {
 				}
 			}
 			clothes.addProduct((Clothes) p);
-			ArrayList<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/clothes.csv");
+			List<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/clothes.csv");
 			foodRecords.add(new String[] {Integer.toString(p.getId()), p.getName(), Double.toString(p.getPrice()), Integer.toString(p.getQty()), Integer.toString(p.getDistributorId()), Integer.toString(p.getDiscountPercentage()), ((Clothes) p).getSize()});
 			csvWriter.writeToCsv("src/csvProducts/clothes.csv", foodRecords);
 			System.out.println("Produs adaugat");
@@ -163,7 +165,7 @@ public class Stock {
 				}
 			}
 			books.addProduct((Book) p);
-			ArrayList<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
+			List<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
 			foodRecords.add(new String[] {Integer.toString(p.getId()), p.getName(), Double.toString(p.getPrice()), Integer.toString(p.getQty()), Integer.toString(p.getDistributorId()), Integer.toString(p.getDiscountPercentage()), ((Book) p).getAuthor()});
 			csvWriter.writeToCsv("src/csvProducts/food.csv", foodRecords);
 			System.out.println("Produs adaugat");
@@ -172,7 +174,7 @@ public class Stock {
 	}
 	
 	private void removeFromCsv(int productId, String path) {
-		ArrayList<String[]> records = csvReader.readFromCsv(path);
+		List<String[]> records = csvReader.readFromCsv(path);
 		for (int i = 1; i < records.size(); i++) {
 			if (Integer.parseInt(records.get(i)[0]) == productId) {
 				records.remove(i);
@@ -267,7 +269,7 @@ public class Stock {
 	}
 	
 	private void reduceCsvQuantity(int productId, String path, int newQty) {
-		ArrayList<String[]> records = csvReader.readFromCsv(path);
+		List<String[]> records = csvReader.readFromCsv(path);
 		for (int i = 1; i < records.size(); i++) {
 			if (Integer.parseInt(records.get(i)[0]) == productId) {
 				records.get(i)[3] = Integer.toString(newQty);
@@ -336,15 +338,15 @@ public class Stock {
 	}
 	
 	public void printBooks() {
-		HashMap<String, ArrayList<Book>> booksByAuthor = new HashMap<String, ArrayList<Book>>();
+		Map<String, List<Book>> booksByAuthor = new HashMap<>();
 		for(Book b : books.getProducts()) {
 			if(!booksByAuthor.containsKey(b.getAuthor())) {
-				ArrayList<Book> aux = new ArrayList<Book>();
+				List<Book> aux = new ArrayList<Book>();
 				aux.add(b);
 				booksByAuthor.put(b.getAuthor(), aux);
 			}
 			else {
-				ArrayList<Book> aux = booksByAuthor.get(b.getAuthor());
+				List<Book> aux = booksByAuthor.get(b.getAuthor());
 				aux.add(b);
 				booksByAuthor.put(b.getAuthor(), aux);
 			}
