@@ -4,12 +4,12 @@ package products;
 public class Electronic extends Product {
 	private int guarantee;
 
-	public Electronic(String name, double price, int qty, int distributorId, int discountPercentage, int guarantee) {
-		super(name, price, qty, distributorId, discountPercentage);
+	public Electronic(String id, String name, double price, int qty, int distributorId, int discountPercentage, int guarantee) {
+		super("e" + id, name, price, qty, distributorId, discountPercentage);
 		this.setGuarantee(guarantee);
 	}
-	public Electronic(String name, double price, int qty, int distributorId, int guarantee) {
-		super(name, price, qty, distributorId);
+	public Electronic(String id, String name, double price, int qty, int distributorId, int guarantee) {
+		super("e" + id, name, price, qty, distributorId);
 		this.setGuarantee(guarantee);
 	}
 

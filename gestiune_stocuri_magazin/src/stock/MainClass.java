@@ -2,102 +2,35 @@ package stock;
 
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.SortedSet;
-import java.util.TreeSet;
 
-import csv.*;
+import jdbc.*;
 import categories.*;
 import distributors.*;
 import products.*;
 public class MainClass {
 	public static void main(String[] args) {
 		
-		CsvReader csvReader = CsvReader.getInstance();
-		CsvWriter csvWriter = CsvWriter.getInstance();
 		
 		//distributors
-		List<String[]> distributorRecords = csvReader.readFromCsv("src/csvProducts/distributors.csv");
-		List<Distributor> distributors = new ArrayList<>();
-		//ignoram prima linie doarece contine doar denumirile coloanelor din fisierul csv
-		for (int i = 1; i < distributorRecords.size(); i++) {
-			String name = distributorRecords.get(i)[1];
-			String phoneNumber = distributorRecords.get(i)[2];
-			Distributor d = new Distributor(name, phoneNumber);
-			distributors.add(d);
-			distributorRecords.get(i)[0] = Integer.toString(d.getId());
-		}
-		//scriem in fisierul csv pentru a nota si id-urile generate automat de program
-		csvWriter.writeToCsv("src/csvProducts/distributors.csv", distributorRecords);
+		List<Distributor> distributors = DistributorsDatabase.getDistributors();
 		
 		//food
-		List<String[]> foodRecords = csvReader.readFromCsv("src/csvProducts/food.csv");
-		SortedSet<Food> fproducts = new TreeSet<>();
-		for (int i = 1; i < foodRecords.size(); i++) {
-			String name = foodRecords.get(i)[1];
-			double price = Double.parseDouble(foodRecords.get(i)[2]);
-			int qty = Integer.parseInt(foodRecords.get(i)[3]);
-			int distributorId = Integer.parseInt(foodRecords.get(i)[4]);
-			int discountPercentage = Integer.parseInt(foodRecords.get(i)[5]);
-			LocalDate expirationDate = LocalDate.parse(foodRecords.get(i)[6]);
-			Food f = new Food(name, price, qty, distributorId, discountPercentage, expirationDate);
-			fproducts.add(f);
-			foodRecords.get(i)[0] = Integer.toString(f.getId());
-		}
-		csvWriter.writeToCsv("src/csvProducts/food.csv", foodRecords);
+		SortedSet<Food> fproducts = FoodDatabase.getFoodProducts();
 		FoodProducts food = new FoodProducts(fproducts);
 		
 		//clothes
-		List<String[]> clothesRecords = csvReader.readFromCsv("src/csvProducts/clothes.csv");
-		List<Clothes> cproducts = new ArrayList<>();
-		for (int i = 1; i < clothesRecords.size(); i++) {
-			String name = clothesRecords.get(i)[1];
-			double price = Double.parseDouble(clothesRecords.get(i)[2]);
-			int qty = Integer.parseInt(clothesRecords.get(i)[3]);
-			int distributorId = Integer.parseInt(clothesRecords.get(i)[4]);
-			int discountPercentage = Integer.parseInt(clothesRecords.get(i)[5]);
-			String size = clothesRecords.get(i)[6];
-			Clothes c = new Clothes(name, price, qty, distributorId, discountPercentage, size);
-			cproducts.add(c);
-			clothesRecords.get(i)[0] = Integer.toString(c.getId());
-		}
-		csvWriter.writeToCsv("src/csvProducts/clothes.csv", clothesRecords);
+		List<Clothes> cproducts = ClothesDatabase.getClothesProducts();
 		ClothesProducts clothes = new ClothesProducts(cproducts);
 		
 		//electronics
-		List<String[]> electronicRecords = csvReader.readFromCsv("src/csvProducts/electronics.csv");
-		List<Electronic> eproducts = new ArrayList<>();
-		for (int i = 1; i < electronicRecords.size(); i++) {
-			String name = electronicRecords.get(i)[1];
-			double price = Double.parseDouble(electronicRecords.get(i)[2]);
-			int qty = Integer.parseInt(electronicRecords.get(i)[3]);
-			int distributorId = Integer.parseInt(electronicRecords.get(i)[4]);
-			int discountPercentage = Integer.parseInt(electronicRecords.get(i)[5]);
-			int guarantee = Integer.parseInt(electronicRecords.get(i)[6]);
-			Electronic e = new Electronic(name, price, qty, distributorId, discountPercentage, guarantee);
-			eproducts.add(e);
-			electronicRecords.get(i)[0] = Integer.toString(e.getId());
-		}
-		csvWriter.writeToCsv("src/csvProducts/electronics.csv", electronicRecords);
+		List<Electronic> eproducts = ElectronicsDatabase.getElectronicProducts();
 		ElectronicProducts electronics = new ElectronicProducts(eproducts);
 		
 		//books
-		List<String[]> bookRecords = csvReader.readFromCsv("src/csvProducts/books.csv");
-		List<Book> bproducts = new ArrayList<>();
-		for (int i = 1; i < bookRecords.size(); i++) {
-			String name = bookRecords.get(i)[1];
-			double price = Double.parseDouble(bookRecords.get(i)[2]);
-			int qty = Integer.parseInt(bookRecords.get(i)[3]);
-			int distributorId = Integer.parseInt(bookRecords.get(i)[4]);
-			int discountPercentage = Integer.parseInt(bookRecords.get(i)[5]);
-			String author = bookRecords.get(i)[6];
-			Book b = new Book(name, price, qty, distributorId, discountPercentage, author);
-			bproducts.add(b);
-			bookRecords.get(i)[0] = Integer.toString(b.getId());
-		}
-		csvWriter.writeToCsv("src/csvProducts/books.csv", bookRecords);
+		List<Book> bproducts = BooksDatabase.getBookProducts();
 		BookProducts books = new BookProducts(bproducts);
 		
 		//services
@@ -122,8 +55,7 @@ public class MainClass {
 			switch (option) {
 			case 1:
 				System.out.print("Id produs:");
-				service.getProductInfo(s, myScanner.nextInt());
-				myScanner.nextLine();
+				service.getProductInfo(s, myScanner.nextLine());
 				System.out.print("\n");
 				break;
 			case 2:
@@ -172,23 +104,23 @@ public class MainClass {
 					System.out.print("Ziua:");
 					int expirationDay = myScanner.nextInt();
 					myScanner.nextLine();
-					service.addProduct(s, new Food(name, price, qty, distributorId, LocalDate.of(expirationYear, expirationMonth, expirationDay)));
+					service.addProduct(s, new Food(null, name, price, qty, distributorId, LocalDate.of(expirationYear, expirationMonth, expirationDay)));
 					break;
 				case 2:
 					System.out.print("Ani garantie:");
 					int guarantee = myScanner.nextInt();
 					myScanner.nextLine();
-					service.addProduct(s, new Electronic(name, price, qty, distributorId, guarantee));
+					service.addProduct(s, new Electronic(null, name, price, qty, distributorId, guarantee));
 					break;
 				case 3:
 					System.out.print("Marime(S,M,L,XL):");
 					String size = myScanner.nextLine();
-					service.addProduct(s, new Clothes(name, price, qty, distributorId, size));
+					service.addProduct(s, new Clothes(null, name, price, qty, distributorId, size));
 					break;
 				case 4:
 					System.out.print("Autor:");
 					String author = myScanner.nextLine();
-					service.addProduct(s, new Book(name, price, qty, distributorId, author));
+					service.addProduct(s, new Book(null, name, price, qty, distributorId, author));
 					break;
 
 				default:
@@ -200,14 +132,12 @@ public class MainClass {
 				break;
 			case 4:
 				System.out.print("Id produs:");
-				service.removeProduct(s, myScanner.nextInt());
-				myScanner.nextLine();
+				service.removeProduct(s, myScanner.nextLine());
 				System.out.print("\n");
 				break;
 			case 5:
 				System.out.print("Marime:");
 				String aux =myScanner.nextLine();
-				System.out.println(aux.equals( "M"));
 				service.clothesWithSize(s, aux);
 				break;
 			case 6:
@@ -227,8 +157,7 @@ public class MainClass {
 				break;
 			case 8:
 				System.out.print("Id produs:");
-				int productId = myScanner.nextInt();
-				myScanner.nextLine();
+				String productId = myScanner.nextLine();
 				System.out.print("Cu cate bucati trebuie redusa cantitatea:");
 				int productQty = myScanner.nextInt();
 				myScanner.nextLine();
@@ -246,6 +175,7 @@ public class MainClass {
 				System.out.print("\n");
 				break;
 			case 11:
+				DatabaseConnection.closeDBconnection();
 				System.exit(0);
 			default:
 				System.out.println("Optiunea nu exista");

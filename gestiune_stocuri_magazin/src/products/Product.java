@@ -1,25 +1,24 @@
 package products;
 
 public class Product {
-	static private int idMaker = 0;
-	private int id;
+	private String id;
 	private String name;
 	private double price;
 	private int qty;
 	private int distributorId;
 	private int discountPercentage;
-	
-	public Product(String name, double price, int qty, int distributorId, int discountPercentage) {
-		idMaker++;
-		this.setId(idMaker);
+
+	public Product(String id, String name, double price, int qty, int distributorId, int discountPercentage) {
+		this.id = id;
 		this.setName(name);
 		this.setPrice(price);
 		this.setQty(qty);
 		this.setDistributor(distributorId);
 		this.setDiscountPercentage(discountPercentage);
 	}
-	public Product(String name, double price, int qty, int distributorId) {
-		this(name, price, qty, distributorId, 0);
+	
+	public Product(String id, String name, double price, int qty, int distributorId) {
+		this(id, name, price, qty, distributorId, 0);
 	}
 
 	public String getName() {
@@ -46,11 +45,11 @@ public class Product {
 		this.qty = qty;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
-
-	public void setId(int id) {
+	
+	public void setId(String id) {
 		this.id = id;
 	}
 	
@@ -69,8 +68,8 @@ public class Product {
 		this.discountPercentage = discountPercentage;
 	}
 	
-	public boolean reduceQty(int productId, int qty) {
-		if(productId != this.id)
+	public boolean reduceQty(String productId, int qty) {
+		if(!productId.equals(this.id))
 			return false;
 		if(qty > this.qty) {
 			System.out.println("Stoc insuficient. Contactati distribuitorul cu id-ul " + this.distributorId + " pentru a mai achizitiona produse");

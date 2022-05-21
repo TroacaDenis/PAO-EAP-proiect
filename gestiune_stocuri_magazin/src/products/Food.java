@@ -5,12 +5,12 @@ import java.time.LocalDate;
 public class Food extends Product implements Comparable<Food>{
 	private LocalDate expirationDate;
 	
-	public Food(String name, double price, int qty, int distributorId, int discountPercentage, LocalDate expirationDate) {
-		super(name, price, qty, distributorId, discountPercentage);
+	public Food(String id, String name, double price, int qty, int distributorId, int discountPercentage, LocalDate expirationDate) {
+		super("f" + id, name, price, qty, distributorId, discountPercentage);
 		this.setExpirationDate(expirationDate);
 	}
-	public Food(String name, double price, int qty, int distributorId, LocalDate expirationDate) {
-		super(name, price, qty, distributorId);
+	public Food(String id, String name, double price, int qty, int distributorId, LocalDate expirationDate) {
+		super("f" + id, name, price, qty, distributorId);
 		this.setExpirationDate(expirationDate);
 	}
 
@@ -25,7 +25,7 @@ public class Food extends Product implements Comparable<Food>{
 	@Override
 	public int compareTo(Food p) {
 		if (this.expirationDate.isEqual(p.getExpirationDate())){
-			return super.getId() - p.getId();
+			return Integer.parseInt((super.getId()).substring(1)) - Integer.parseInt(p.getId().substring(1));
 		}
 		else
 			if(this.expirationDate.isAfter(p.getExpirationDate()))

@@ -2,83 +2,65 @@ package stock;
 
 import products.*;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import csv.CsvReader;
-import csv.*;
-import csv.CsvWriter;
-
 public class Service implements ServiceInterface{
-
-	private CsvAudit csvAudit = CsvAudit.getInstance();
-	private void registerAction(String action){
-		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-		String timestamp = LocalDateTime.now().format(format);
-		String [] record = {action, timestamp};
-		csvAudit.auditCsv("src/csvActions/actiuniRealizate.csv", record);
-	}
 	
-	
+	//1
 	@Override
-	public void getProductInfo(Stock s, int productId) {
-		registerAction("Afiseaza toate informatiile despre un produs");
+	public void getProductInfo(Stock s, String productId) {
 		s.getProductInfo(productId);
 	}
 	
+	//2
 	@Override
 	public void printCategory(Stock s, int category) {
-		registerAction("Afiseaza toate produsele dintr-o categorie");
 		s.printCategory(category);
 	}
 
+	//3
 	@Override
 	public void addProduct(Stock s, Product p) {
-		registerAction("Adauga produs");
 		s.addProduct(p);
 	}
 
+	//4
 	@Override
-	public void removeProduct(Stock s, int productId) {
-		registerAction("Sterge produs");
+	public void removeProduct(Stock s, String productId) {
 		s.removeProduct(productId);
 	}
 
+	//5
 	@Override
 	public void clothesWithSize(Stock s, String m) {
-		registerAction("Afiseaza haine");
 		s.printclothes(m);
 	}
 
+	//6
 	@Override
 	public void applyDiscount(Stock s, int n) {
-		registerAction("Aplica reducere produselor ce vor expira");
 		s.applyDiscount(n);
 	}
 
+	//7
 	@Override
 	public void distributorProducts(Stock s, int DistributorId) {
-		registerAction("Afiseaza produsele achizitionate de la un distributor");
 		s.distributorProducts(DistributorId);
 	}
 
+	//8
 	@Override
-	public void reduceQty(Stock s, int productId, int qty) {
-		registerAction("Modifica cantitate");
+	public void reduceQty(Stock s, String productId, int qty) {
 		s.reduceQty(productId, qty);
 	}
 
+	//9
 	@Override
 	public void productsWithPrice(Stock s, int price) {
-		registerAction("Afiseaza produse dupa pret");
 		s.productsWithPrice(price);
 	}
 
+	//10
 	@Override
 	public void printBooks(Stock s) {
-		registerAction("Grupeaza cartile dupa autor");
 		s.printBooks();
 	}
 
