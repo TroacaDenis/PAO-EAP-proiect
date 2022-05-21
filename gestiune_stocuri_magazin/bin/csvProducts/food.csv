@@ -1,4 +1,0 @@
-id,name,price,qty,distributorId,discountPercentage,expirationDate
-1,paine,3.75,96,1,25,2020-04-02
-2,carne,10,246,2,0,2020-05-16
-3,lapte,7,100,4,0,2020-04-07

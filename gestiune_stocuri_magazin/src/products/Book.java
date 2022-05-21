@@ -2,12 +2,12 @@ package products;
 
 public class Book extends Product {
 	private String author;
-	public Book(String name, double price, int qty, int distributorId, int discountPercentage, String author) {
-		super(name, price, qty, distributorId, discountPercentage);
+	public Book(String id, String name, double price, int qty, int distributorId, int discountPercentage, String author) {
+		super("b" + id, name, price, qty, distributorId, discountPercentage);
 		this.author = author;
 	}
-	public Book(String name, double price, int qty, int distributorId, String author) {
-		super(name, price, qty, distributorId);
+	public Book(String id, String name, double price, int qty, int distributorId, String author) {
+		super("b" + id, name, price, qty, distributorId);
 		this.author = author;
 	}
 	
