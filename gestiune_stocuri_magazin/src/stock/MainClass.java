@@ -13,6 +13,12 @@ import products.*;
 public class MainClass {
 	public static void main(String[] args) {
 		
+		//create tables if they don't exist
+		DistributorsDatabase.createTable();
+		FoodDatabase.createTable();
+		ClothesDatabase.createTable();
+		ElectronicsDatabase.createTable();
+		BooksDatabase.createTable();
 		
 		//distributors
 		List<Distributor> distributors = DistributorsDatabase.getDistributors();
